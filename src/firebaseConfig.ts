@@ -1,3 +1,4 @@
+import { resolve } from "dns";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -45,4 +46,22 @@ export async function registerUser(username: string, password: string): Promise<
       return false;
     }
   }
+
+export async function getCurrentUser() {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(
+      (user: any) => {
+        if (user) {
+          resolve(user);
+        } else {
+          resolve(null);
+        }
+        unsubscribe();
+      },
+      (error) => {
+        reject(error);
+      }
+    );
+  });
+}
 export default app;
