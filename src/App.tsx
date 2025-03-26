@@ -26,6 +26,8 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import { getCurrentUser } from './firebaseConfig';
 import Dashboard from './pages/Dashboard';
+import { useDispatch } from 'react-redux';
+import { setUserState } from './redux/action';
 
 setupIonicReact();
 
@@ -58,10 +60,12 @@ const RoutingSystem: React.FC = () => {
 
 const App: React.FC = () => {
   const [busy, setBusy] = useState(true)
+  const dispatch = useDispatch()
   useEffect(() => {
     getCurrentUser().then((user: any) => {
       if(user){
         // im logged in
+        dispatch(setUserState(user.email))
         window.history.replaceState({},'','/dashboard')
       }else{
         window.history.replaceState({}, '', '/')

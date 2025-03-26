@@ -1,6 +1,6 @@
 import { resolve } from "dns";
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDbOPM5jdKFXXdWW3blXcSCmEEpXGL8iAI",
@@ -16,7 +16,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-export async function loginUser(username: string, password: string, presentToast: (msg: string, duration: number) => void): Promise<boolean> {
+export async function loginUser(
+  username: string,
+  password: string,
+  presentToast: (msg: string, duration: number) => void
+): Promise<UserCredential | false> { 
+
   if (!username || !password) {
     presentToast("Username dan password harus diisi!", 3000);
     return false;
@@ -25,14 +30,14 @@ export async function loginUser(username: string, password: string, presentToast
   const email = `${username}@yoga123.com`;
   try {
     const res = await signInWithEmailAndPassword(auth, email, password);
-    console.log("Login Berhasil:", res.user);
     presentToast("Login berhasil!", 2000);
-    return true;
+    return res; 
   } catch (error: any) {
     presentToast(error.message, 4000);
     return false;
   }
 }
+
 
 export async function registerUser(username: string, password: string): Promise<boolean> {
     const email = `${username}@yoga123.com`; // Pastikan format email benar
@@ -64,4 +69,9 @@ export async function getCurrentUser() {
     );
   });
 }
+
+export async function logoutUser() {
+  return auth.signOut();
+}
+
 export default app;
