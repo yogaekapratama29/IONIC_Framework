@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { IonButton, IonContent, IonHeader, IonInput, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import { IonButton, IonContent, IonHeader, IonInput, IonLoading, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import { useIonToast } from "@ionic/react";
 import { Link } from "react-router-dom";
 import { registerUser } from "../firebaseConfig";
 
 const Register: React.FC = () => {
+    const [busy, setBusy] = useState<boolean>(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [present] = useIonToast();
 
   async function register() {
+    setBusy(true);
     console.log("Password:", password);
     console.log("Confirm Password:", confirmPassword);
 
@@ -32,6 +34,8 @@ const Register: React.FC = () => {
     } else {
       present({ message: "Registration failed! Try again.", duration: 2000 });
     }
+    
+    setBusy(false);
   }
 
   return (
@@ -42,6 +46,7 @@ const Register: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
+        <IonLoading message="Registration in progress..." duration = {0} isOpen={busy}/>
         <IonInput
           placeholder="Username?"
           onIonChange={(e) => setUsername(e.detail.value!)}

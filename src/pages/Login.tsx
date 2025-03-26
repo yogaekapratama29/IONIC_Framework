@@ -1,15 +1,19 @@
 import React, { useState } from "react";
-import { IonButton, IonContent, IonHeader, IonInput, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import { IonButton, IonContent, IonHeader, IonInput, IonLoading, IonPage, IonTitle, IonToolbar } from "@ionic/react";
 import { loginUser } from "../firebaseConfig";
 import { useIonToast } from "@ionic/react";
 import { Link } from "react-router-dom";
 
 const Login: React.FC = () => {
+
+  const [busy, setBusy] = useState<boolean>(false);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [present] = useIonToast();
 
   async function login() {
+    setBusy(true);
     const email = `${username}@yoga123.com`;
     console.log("Login dengan email:", email);
 
@@ -24,6 +28,7 @@ const Login: React.FC = () => {
     } else {
       present({ message: "Login Gagal! Periksa username dan password Anda.", duration: 2000 });
     }
+    setBusy(false);
   }
 
   return (
@@ -33,6 +38,7 @@ const Login: React.FC = () => {
           <IonTitle>Login</IonTitle>
         </IonToolbar>
       </IonHeader>
+      <IonLoading message="Please waiting...." duration = {0} isOpen={busy}/>
       <IonContent className="ion-padding">
         <IonInput placeholder="Username?" onIonChange={(e) => setUsername(e.detail.value!)} />
         <IonInput type="password" placeholder="Password?" onIonChange={(e) => setPassword(e.detail.value!)} />
