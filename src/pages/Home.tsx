@@ -1,21 +1,8 @@
 import React from 'react';
-import { IonAvatar, IonContent, IonHeader, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonAvatar, IonButton, IonContent, IonHeader, IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import './Home.css';
+import {star} from 'ionicons/icons';
 
-const arr = [
-  {
-    name: "Yoga Eka",
-    desc : "Telkom University Purwokerto"
-  },
-  {
-    name: "Han",
-    desc : "Universitas Indonesia"
-  },
-  {
-    name : "Supri",
-    desc : "Universitas Indonesia"
-  }
-]
 
 const Home: React.FC = () => {
   return (
@@ -26,27 +13,10 @@ const Home: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonList>
-            {arr.map(elem => 
-              (<IonItemSliding key={elem.name}>
-                <IonItem>
-                  <IonAvatar>
-                    <img src={`https://ionicframework.com/docs/demos/api/avatar-${elem.name.toLowerCase()}.png`} alt="avatar"/>
-                  </IonAvatar>
-                  <IonLabel className='ion-padding'>
-                    <h2>{elem.name}</h2>
-                    <h3>{elem.desc}</h3>
-                    <p>Some helper text!</p>
-                  </IonLabel>
-                </IonItem>
-                <IonItemOptions side='end'>
-                  <IonItemOption onClick={() => alert("Press Delete!")}>
-                    Delete
-                  </IonItemOption>
-                </IonItemOptions>
-              </IonItemSliding>))}
-        </IonList>
-
+       <IonButton expand='full' color="primary">
+        <IonIcon slot='start' icon={star}></IonIcon>
+      Hello World
+       </IonButton>
         <IonHeader collapse="condense">
           <IonToolbar>
             <IonTitle size="large">Blank</IonTitle>
