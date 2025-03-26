@@ -16,11 +16,11 @@ const Home: React.FC = () => {
     <IonPage>
       <IonHeader style={{ "--ion-background-color" : "green"}}>
         <IonToolbar>
-          <IonTitle>Hello World</IonTitle>
+          <IonTitle>Example</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className='ion-padding'>
-      <IonButton routerLink='/example'>Click Me</IonButton>
+        Hello From Example Pages
       </IonContent>
     </IonPage>
   );
