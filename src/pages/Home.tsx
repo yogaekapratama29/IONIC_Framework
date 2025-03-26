@@ -1,10 +1,17 @@
-import React from 'react';
-import { IonAvatar, IonButton, IonContent, IonHeader, IonIcon, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import React, { useEffect, useState } from 'react';
+import { IonAvatar, IonButton, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonItemOption, IonItemOptions, IonItemSliding, IonLabel, IonList, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import './Home.css';
-import {star} from 'ionicons/icons';
+
 
 
 const Home: React.FC = () => {
+
+  const [input, setInput] = useState<string>('');
+
+  useEffect(() => {
+    console.log(input)
+  },[input])
+
   return (
     <IonPage>
       <IonHeader style={{ "--ion-background-color" : "green"}}>
@@ -12,16 +19,8 @@ const Home: React.FC = () => {
           <IonTitle>Hello World</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-       <IonButton expand='full' color="primary">
-        <IonIcon slot='start' icon={star}></IonIcon>
-      Hello World
-       </IonButton>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Blank</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+      <IonContent className='ion-padding'>
+      <IonInput value={input} onIonChange={(e:any) => setInput(e.target.value)} ></IonInput>
       </IonContent>
     </IonPage>
   );
