@@ -7,9 +7,7 @@ import { useDispatch } from "react-redux";
 import { setUserState } from "../redux/action";
 
 const Login: React.FC = () => {
-
   const [busy, setBusy] = useState<boolean>(false);
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [present] = useIonToast();
@@ -17,25 +15,30 @@ const Login: React.FC = () => {
   const history = useHistory();
 
   async function login() {
-    setBusy(true);
-    const email = `${username}@yoga123.com`;
-    console.log("Login dengan email:", email);
-
     if (!username || !password) {
-      return present({ message: "Username dan password harus diisi!", duration: 2000 });
+      await present({ message: "Username dan password harus diisi!", duration: 2000 });
+      return;
     }
 
-    const res = await loginUser(username, password, (msg, duration) => present({ message: msg, duration }));
-    
-    if (res) {
-      
-      dispatch(setUserState(res.user.email));
-      history.replace('/dashboard');
-      present({ message: "Login Berhasil!", duration: 2000 });
-    } else {
-      present({ message: "Login Gagal! Periksa username dan password Anda.", duration: 2000 });
+    setBusy(true); 
+
+    try {
+      const res = await loginUser(username, password, async (msg, duration) => {
+        await present({ message: msg, duration });
+      });
+
+      if (res) {
+        dispatch(setUserState(res.user.email));
+        await present({ message: "Login Berhasil!", duration: 2000 });
+        history.replace('/dashboard');
+      } else {
+        await present({ message: "Login Gagal! Periksa username dan password Anda.", duration: 2000 });
+      }
+    } catch (error) {
+      await present({ message: "Terjadi kesalahan saat login!", duration: 2000 });
     }
-    setBusy(false);
+
+    setBusy(false); 
   }
 
   return (
@@ -45,7 +48,7 @@ const Login: React.FC = () => {
           <IonTitle>Login</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonLoading message="Please waiting...." duration = {0} isOpen={busy}/>
+      <IonLoading message="Please wait..." isOpen={busy} />
       <IonContent className="ion-padding">
         <IonInput placeholder="Username?" onIonChange={(e) => setUsername(e.detail.value!)} />
         <IonInput type="password" placeholder="Password?" onIonChange={(e) => setPassword(e.detail.value!)} />
