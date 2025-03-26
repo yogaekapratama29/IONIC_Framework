@@ -1,9 +1,13 @@
- export default function presentToast(message : string, duration = 2000) {
-    const toast = document.createElement('ion-toast');
-    toast.message = message;
-    toast.duration = duration;
+import { useIonToast } from "@ionic/react";
 
-    document.body.appendChild(toast);
-    return toast.present();
-  }
+export function useCustomToast() {
+    const [present] = useIonToast();
 
+    return (message: string, duration = 2000) => {
+        present({
+            message,
+            duration,
+            position: "bottom", 
+        });
+    };
+}
