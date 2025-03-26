@@ -3,18 +3,22 @@ import { IonAvatar, IonButton, IonContent, IonHeader, IonIcon, IonInput, IonItem
 import './Home.css';
 import { Link } from 'react-router-dom';
 import { loginUser } from '../firebaseConfig';
-
-
+import { useIonToast } from '@ionic/react';
 
 const Home: React.FC = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-
-  async function login(){
-     const res = await loginUser(username, password) 
-     console.log(`${res ? 'Login Success' : 'Login Failed'}`);
-
+  const [present] = useIonToast();
+  
+  async function login() {
+    const res = await loginUser(username, password);
+  
+    present({
+      message: res ? 'You have logged in' : 'Error logging in with your credentials',
+      duration: 2000
+    });
   }
+  
 
 
   return (
